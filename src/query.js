@@ -1,3 +1,30 @@
+export const queryWithParams = (pageCount, queryString) => {
+  return {
+    query: `
+        {
+          viewer {
+            name
+          }
+          search(query: "${queryString} user:robert-laws sort:updated-desc", type: REPOSITORY, first: ${pageCount}) {
+            repositoryCount
+            nodes {
+              ... on Repository {
+                id
+                name
+                description
+                url
+                viewerSubscription
+                licenseInfo {
+                  spdxId
+                }
+              }
+            }
+          }
+        }
+      `,
+  };
+};
+
 export const basicGithubQuery = {
   query: `
         {
