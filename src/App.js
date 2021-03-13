@@ -1,9 +1,11 @@
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
-    <div className='App'>
-      <h1>App</h1>
+    <div className='container mt-5'>
+      <h1 className='text-primary'>
+        <i className='bi bi-diagram-2-fill'></i> Repos
+      </h1>
     </div>
   );
 }
