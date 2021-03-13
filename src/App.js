@@ -8,22 +8,40 @@ function App() {
   const [userName, setUserName] = useState('');
   const [repoList, setRepoList] = useState(null);
 
-  const fetchData = useCallback(() => {
-    fetch(github.baseURL, {
-      method: 'POST',
-      headers: github.headers,
-      body: JSON.stringify(licenseGithubQuery),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const name = data.data.viewer.name;
-        const repos = data.data.search.nodes;
-        setUserName(name);
-        setRepoList(repos);
-      })
-      .catch((error) => {
-        console.log(error);
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await fetch(github.baseURL, {
+        method: 'POST',
+        headers: github.headers,
+        body: JSON.stringify(licenseGithubQuery),
       });
+
+      const data = await response.json();
+
+      const name = data.data.viewer.name;
+      const repos = data.data.search.nodes;
+
+      setUserName(name);
+      setRepoList(repos);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // fetch(github.baseURL, {
+    //   method: 'POST',
+    //   headers: github.headers,
+    //   body: JSON.stringify(licenseGithubQuery),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     const name = data.data.viewer.name;
+    //     const repos = data.data.search.nodes;
+    //     setUserName(name);
+    //     setRepoList(repos);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }, []);
 
   useEffect(() => {
