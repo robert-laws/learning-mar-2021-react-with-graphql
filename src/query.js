@@ -25,6 +25,47 @@ export const queryWithParams = (pageCount, queryString) => {
   };
 };
 
+export const queryWithParamsAndPagination = (
+  pageCount,
+  queryString,
+  paginationKeyword,
+  paginationString
+) => {
+  return {
+    query: `
+        {
+          viewer {
+            name
+          }
+          search(query: "${queryString} user:robert-laws sort:updated-desc", type: REPOSITORY, ${paginationKeyword}: ${pageCount}, ${paginationString}) {
+            repositoryCount
+            edges {
+              cursor
+              node{
+                ... on Repository {
+                  id
+                  name
+                  description
+                  url
+                  viewerSubscription
+                  licenseInfo{
+                    spdxId
+                  }
+                }
+              }
+            }
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
+  };
+};
+
 export const basicGithubQuery = {
   query: `
         {
